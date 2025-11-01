@@ -21,20 +21,24 @@ export default function Home() {
   useEffect(() => {
     fetchTodos();
 
-    const channel = supabase
-      .channel('todos-changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'todos' },
-        () => {
-          fetchTodos();
-        }
-      )
-      .subscribe();
+    try {
+      const channel = supabase
+        .channel('todos-changes')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'todos' },
+          () => {
+            fetchTodos();
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+      return () => {
+        channel.unsubscribe();
+      };
+    } catch (error) {
+      console.error('Realtime subscription error:', error);
+    }
   }, []);
 
   const fetchTodos = async () => {
