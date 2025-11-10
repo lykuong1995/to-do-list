@@ -202,7 +202,7 @@ export default function Home() {
                   <button onClick={() => handleToggleComplete(todo)}>
                     {todo.isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
                   </button>
-                  <button onClick={() => handleEdit(todo)} class={todo.isCompleted ? 'd-none' : ''}>Edit</button>
+                  <button onClick={() => handleEdit(todo)} className={todo.isCompleted ? 'd-none' : ''}>Edit</button>
                   <button onClick={() => handleDelete(todo.id)}>Remove</button>
                 </div>
               )}
